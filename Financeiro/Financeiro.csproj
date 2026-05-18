@@ -22,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BibliotecasSIG\BibliotecasSIG\BibliotecasSIG.csproj" />
+    <ProjectReference Include="..\..\Update\Update.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="BibliotecasSIG">
       <HintPath>..\..\BibliotecasSIG\BibliotecasSIG\bin\Debug\net9.0\BibliotecasSIG.dll</HintPath>
     </Reference>
