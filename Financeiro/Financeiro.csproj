@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icones\configuracao-de-dados-windows-metro-16.png" />
+    <None Remove="icones\icons8-usu_0025c3_0025a1rio-de-g_0025c3_0025aanero-neutro-windows-metro-16.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="Npgsql" Version="10.0.2" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="10.0.6" />
+    <PackageReference Include="Telerik.UI.for.Wpf.80.Xaml" Version="2025.2.521" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BibliotecasSIG">
+      <HintPath>..\..\BibliotecasSIG\BibliotecasSIG\bin\Debug\net9.0\BibliotecasSIG.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icones\configuracao-de-dados-windows-metro-16.png" />
+    <Resource Include="icones\icons8-usu_0025c3_0025a1rio-de-g_0025c3_0025aanero-neutro-windows-metro-16.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Localization\GridViewResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GridViewResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\GridViewResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GridViewResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

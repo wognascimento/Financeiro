@@ -1,0 +1,89 @@
+﻿<Window x:Class="Financeiro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Financeiro"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+        Title="SISTEMA INTEGRADO DE GERENCIAMENTO - FINANCEIRO" Height="450" Width="800" WindowState="Maximized" WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <telerik:RadMenu Grid.Row="0" Background="AliceBlue" >
+
+            <telerik:RadMenuItem Header="Fluxo">
+                <telerik:RadMenuItem Header="Empresa" Click="OnEmpresaClick"  />
+                <telerik:RadMenuItem Header="Todos Lançamentos"  />
+                <telerik:RadMenuItem Header="Cobrança"  />
+            </telerik:RadMenuItem>
+
+            <telerik:RadMenuItem Header="Contrato"/>
+
+            <telerik:RadMenuItem Header="Retenções">
+                <telerik:RadMenuItem Header="Clientes"  />
+                <telerik:RadMenuItem Header="Fornecedores"  />
+            </telerik:RadMenuItem>
+
+            <telerik:RadMenuItem Header="Compras">
+                <telerik:RadMenuItem Header="Cadastros">
+                    <telerik:RadMenuItem Header="Fornecedor"/>
+                </telerik:RadMenuItem>
+            </telerik:RadMenuItem>
+
+
+            <telerik:RadMenuItem Header="Outros" >
+                <telerik:RadMenuItem Header="Virada Fiscal Anual"  />
+                <telerik:RadMenuItem Header="Atualizar Sistema"  />
+            </telerik:RadMenuItem>
+
+        </telerik:RadMenu>
+
+
+        <!-- RadDocking como container MDI -->
+        <telerik:RadDocking Grid.Row="1" x:Name="radDocking"
+                    HasDocumentHost="True">
+            <telerik:RadDocking.DocumentHost>
+                <telerik:RadSplitContainer>
+                    <telerik:RadPaneGroup x:Name="documentGroup"/>
+                </telerik:RadSplitContainer>
+            </telerik:RadDocking.DocumentHost>
+        </telerik:RadDocking>
+
+        <!-- Menu para criar novos documentos -->
+
+        <telerik:RadToolBar Grid.Row="2" 
+                            Background="AliceBlue"
+                            GripVisibility="Collapsed" 
+                            OverflowButtonVisibility="Collapsed">
+
+            <Button Click="OnAlterarUsuarioClick">
+                <Image Source="/icones/icons8-usu_0025c3_0025a1rio-de-g_0025c3_0025aanero-neutro-windows-metro-16.png" />
+            </Button>
+            
+            <TextBlock 
+                x:Name="txtUsername" 
+                Text="USUÁRIO LOGADO" />
+
+
+            <TextBlock 
+                x:Name="txtDataBase" 
+                Text="BANCO DE DADOS" 
+                telerik:RadToolBar.ItemAlignment="Right"/>
+
+            <Button telerik:RadToolBar.ItemAlignment="Right"  Click="OnAlterarBancoDadosClick">
+                <Image Source="/icones/configuracao-de-dados-windows-metro-16.png" />
+            </Button>
+
+ 
+        </telerik:RadToolBar>
+
+    </Grid>
+
+</Window>
