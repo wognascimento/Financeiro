@@ -361,3 +361,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# SIG deploy artifacts
+artifacts/
+publish/
+redist/
+build-verify/
+build-verify-*/
+application-*.zip
+version.json
+*.tmp

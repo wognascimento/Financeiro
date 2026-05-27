@@ -20,20 +20,20 @@
 
             <telerik:RadMenuItem Header="Fluxo">
                 <telerik:RadMenuItem Header="Empresa" Click="OnEmpresaClick"  />
-                <telerik:RadMenuItem Header="Todos Lançamentos"  />
-                <telerik:RadMenuItem Header="Cobrança"  />
+                <telerik:RadMenuItem Header="Todos Lançamentos" Click="OnTodosLancamentosClick" />
+                <telerik:RadMenuItem Header="Cobrança" Click="OnCobrancaClick" />
             </telerik:RadMenuItem>
 
-            <telerik:RadMenuItem Header="Contrato"/>
+            <telerik:RadMenuItem Header="Contrato" Click="OnContratoClick"/>
 
             <telerik:RadMenuItem Header="Retenções">
-                <telerik:RadMenuItem Header="Clientes"  />
-                <telerik:RadMenuItem Header="Fornecedores"  />
+                <telerik:RadMenuItem Header="Clientes" Click="OnRetencaoClientesClick"/>
+                <telerik:RadMenuItem Header="Fornecedores" Click="OnRetencaoFornecedoresClick"/>
             </telerik:RadMenuItem>
 
             <telerik:RadMenuItem Header="Compras">
                 <telerik:RadMenuItem Header="Cadastros">
-                    <telerik:RadMenuItem Header="Fornecedor"/>
+                    <telerik:RadMenuItem Header="Fornecedor" Click="OnCadastroFornecedorClick"/>
                 </telerik:RadMenuItem>
             </telerik:RadMenuItem>
 

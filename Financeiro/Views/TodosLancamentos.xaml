@@ -1,0 +1,170 @@
+<UserControl x:Class="Financeiro.Views.TodosLancamentos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d"
+             Background="White"
+             d:DesignHeight="600"
+             d:DesignWidth="1400">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <telerik:RadToolBar Grid.Row="0"
+                            GripVisibility="Collapsed"
+                            OverflowButtonVisibility="Collapsed">
+            <telerik:RadButton Content="Adicionar"
+                               Click="OnAdicionarLancamentoClick"
+                               Padding="12,4"/>
+        </telerik:RadToolBar>
+
+        <telerik:RadGridView x:Name="GridLancamentos"
+                             ItemsSource="{Binding Fluxos}"
+                             SelectedItem="{Binding SelectedMovimentoFuturo}"
+                             Grid.Row="1"
+                             Margin="0,6,0,0"
+                             AutoGenerateColumns="False"
+                             ShowGroupPanel="False"
+                             CanUserFreezeColumns="False"
+                             CanUserInsertRows="True"
+                             NewRowPosition="Top"
+                             IsReadOnly="False"
+                             IsFilteringAllowed="True"
+                             AddingNewDataItem="GridLancamentos_AddingNewDataItem"
+                             CellValidating="GridLancamentos_CellValidating"
+                             RowValidating="GridLancamentos_RowValidating"
+                             RowIndicatorVisibility="Collapsed"
+                             SelectionMode="Single"
+                             SelectionUnit="FullRow">
+
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="Conta"
+                                            DataMemberBinding="{Binding conta}"
+                                            Width="120">
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadComboBox
+                                ItemsSource="{Binding DataContext.ContasGrid, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                SelectedItem="{Binding conta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsEditable="True"/>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Header="Depto"
+                                            DataMemberBinding="{Binding depto}"
+                                            Width="100">
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadComboBox
+                                ItemsSource="{Binding DataContext.DepartamentosGrid, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                SelectedItem="{Binding depto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsEditable="True"/>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Header="Classif"
+                                            DataMemberBinding="{Binding classif}"
+                                            Width="110"/>
+
+                <telerik:GridViewDataColumn Header="Class3"
+                                            DataMemberBinding="{Binding class3}"
+                                            Width="90"/>
+
+                <telerik:GridViewDataColumn Header="F/V"
+                                            DataMemberBinding="{Binding tipo}"
+                                            Width="60">
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadComboBox
+                                ItemsSource="{Binding DataContext.TiposGrid, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                SelectedItem="{Binding tipo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsEditable="True"/>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Header="Ok"
+                                            DataMemberBinding="{Binding ok}"
+                                            Width="60"/>
+
+                <telerik:GridViewDataColumn Header="F. Pgto."
+                                            DataMemberBinding="{Binding forma_pagto}"
+                                            Width="120"/>
+
+                <telerik:GridViewDataColumn Header="Descricao"
+                                            DataMemberBinding="{Binding descricao}"
+                                            Width="250"/>
+
+                <telerik:GridViewDataColumn Header="Detalhe"
+                                            DataMemberBinding="{Binding detalhe_cartao}"
+                                            Width="120"/>
+
+                <telerik:GridViewDataColumn Header="CNPJ"
+                                            DataMemberBinding="{Binding cnpj}"
+                                            Width="140"/>
+
+                <telerik:GridViewDataColumn Header="Data Emissao"
+                                            DataMemberBinding="{Binding data_emissao}"
+                                            DataFormatString="{}{0:dd/MM/yyyy}"
+                                            Width="115"/>
+
+                <telerik:GridViewDataColumn Header="Vencimento"
+                                            DataMemberBinding="{Binding data_vencimento}"
+                                            DataFormatString="{}{0:dd/MM/yyyy}"
+                                            Width="115"/>
+
+                <telerik:GridViewDataColumn Header="Pagamento"
+                                            DataMemberBinding="{Binding data_pagamento}"
+                                            DataFormatString="{}{0:dd/MM/yyyy}"
+                                            Width="115"/>
+
+                <telerik:GridViewDataColumn Header="Previsto"
+                                            DataMemberBinding="{Binding valor_previsto}"
+                                            DataFormatString="{}{0:N2}"
+                                            TextAlignment="Right"
+                                            Width="115"/>
+
+                <telerik:GridViewDataColumn Header="Credito"
+                                            DataMemberBinding="{Binding credito}"
+                                            DataFormatString="{}{0:N2}"
+                                            TextAlignment="Right"
+                                            Width="115"/>
+
+                <telerik:GridViewDataColumn Header="Debito"
+                                            DataMemberBinding="{Binding debito}"
+                                            DataFormatString="{}{0:N2}"
+                                            TextAlignment="Right"
+                                            Width="115"/>
+
+                <telerik:GridViewDataColumn Header="Saldo Acumulado"
+                                            DataMemberBinding="{Binding saldo_acumulado}"
+                                            DataFormatString="{}{0:N2}"
+                                            TextAlignment="Right"
+                                            Width="130"/>
+
+                <telerik:GridViewDataColumn Header="Documento"
+                                            DataMemberBinding="{Binding numero_documento}"
+                                            Width="120"/>
+
+                <telerik:GridViewDataColumn Header="Parcela"
+                                            DataMemberBinding="{Binding parcela}"
+                                            Width="80"/>
+
+                <telerik:GridViewDataColumn Header="Razao Social"
+                                            DataMemberBinding="{Binding razao_social}"
+                                            Width="220"/>
+
+                <telerik:GridViewDataColumn Header="Obs"
+                                            DataMemberBinding="{Binding obs}"
+                                            Width="220"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

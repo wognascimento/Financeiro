@@ -2,6 +2,6 @@
 
 public sealed class SaldoFluxoDto
 {
-    public double SaldoAnterior { get; set; }
-    public double SaldoAtual { get; set; }
+    public decimal SaldoAnterior { get; set; }
+    public decimal SaldoAtual { get; set; }
 }

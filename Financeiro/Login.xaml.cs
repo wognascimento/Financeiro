@@ -46,7 +46,7 @@ namespace Financeiro
                     ConfigurationManager.RefreshSection("appSettings");
 
                     BaseSettings.Username = txtLogin.Text;
-                    BaseSettings.ConnectionString = $"Host={BaseSettings.Host};Database={BaseSettings.Database};Username={BaseSettings.Username};Password={BaseSettings.Password}";
+                    BaseSettings.RefreshConnectionString();
 
                     this.DialogResult = true;
                     this.Close();

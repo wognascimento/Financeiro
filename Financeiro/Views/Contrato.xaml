@@ -1,0 +1,76 @@
+<UserControl x:Class="Financeiro.Views.Contrato"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d"
+             Background="White"
+             d:DesignHeight="600"
+             d:DesignWidth="1400">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <telerik:RadToolBar Grid.Row="0"
+                            GripVisibility="Collapsed"
+                            OverflowButtonVisibility="Collapsed">
+            <telerik:RadButton Content="Adicionar"
+                               Click="OnAdicionarContratoClick"
+                               Padding="12,4"/>
+        </telerik:RadToolBar>
+
+        <telerik:RadGridView x:Name="GridContrato"
+                             Grid.Row="1"
+                             Margin="0,6,0,0"
+                             ItemsSource="{Binding Contratos}"
+                             AutoGenerateColumns="False"
+                             ShowGroupPanel="False"
+                             CanUserFreezeColumns="False"
+                             CanUserInsertRows="True"
+                             NewRowPosition="Top"
+                             IsReadOnly="False"
+                             IsFilteringAllowed="True"
+                             AddingNewDataItem="GridContrato_AddingNewDataItem"
+                             CellValidating="GridContrato_CellValidating"
+                             RowValidating="GridContrato_RowValidating"
+                             RowIndicatorVisibility="Collapsed"
+                             SelectionMode="Single"
+                             SelectionUnit="FullRow">
+
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="ano" DataMemberBinding="{Binding ano}" Width="80"/>
+                <telerik:GridViewComboBoxColumn Header="sigla"
+                                                DataMemberBinding="{Binding sigla}"
+                                                ItemsSource="{Binding DataContext.Clientes, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                                SelectedValueMemberPath="sigla"
+                                                DisplayMemberPath="sigla"
+                                                Width="90"/>
+                <telerik:GridViewDataColumn Header="sigla contrato" DataMemberBinding="{Binding sigla_contrato}" Width="120"/>
+                <telerik:GridViewDataColumn Header="contrato" DataMemberBinding="{Binding contrato}" Width="120"/>
+                <telerik:GridViewDataColumn Header="confirmado" DataMemberBinding="{Binding confirmado}" Width="100"/>
+                <telerik:GridViewComboBoxColumn Header="tema"
+                                                DataMemberBinding="{Binding tema}"
+                                                ItemsSource="{Binding DataContext.Temas, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                                SelectedValueMemberPath="temas"
+                                                DisplayMemberPath="temas"
+                                                Width="180"/>
+                <telerik:GridViewDataColumn Header="nome fantasia" DataMemberBinding="{Binding nome_fantasia}" Width="180"/>
+                <telerik:GridViewDataColumn Header="data contrato" DataMemberBinding="{Binding data_contrato}" DataFormatString="{}{0:dd/MM/yyyy}" Width="115"/>
+                <telerik:GridViewDataColumn Header="inicio montagem" DataMemberBinding="{Binding inicio_montagem}" DataFormatString="{}{0:dd/MM/yyyy}" Width="120"/>
+                <telerik:GridViewDataColumn Header="final montagem" DataMemberBinding="{Binding final_montagem}" DataFormatString="{}{0:dd/MM/yyyy}" Width="120"/>
+                <telerik:GridViewDataColumn Header="transporte_por_conta" DataMemberBinding="{Binding transporte_por_conta}" Width="150"/>
+                <telerik:GridViewDataColumn Header="valor_contratada" DataMemberBinding="{Binding valor_contratada}" DataFormatString="{}{0:N0}" TextAlignment="Right" Width="130"/>
+                <telerik:GridViewDataColumn Header="inicio desmontagem" DataMemberBinding="{Binding inicio_desmontagem}" DataFormatString="{}{0:dd/MM/yyyy}" Width="135"/>
+                <telerik:GridViewDataColumn Header="final desmontagem" DataMemberBinding="{Binding final_desmontagem}" DataFormatString="{}{0:dd/MM/yyyy}" Width="135"/>
+                <telerik:GridViewDataColumn Header="observações" DataMemberBinding="{Binding observacoes}" Width="220"/>
+                <telerik:GridViewDataColumn Header="aditivo" DataMemberBinding="{Binding aditivo}" DataFormatString="{}{0:dd/MM/yyyy}" Width="115"/>
+                <telerik:GridViewDataColumn Header="remetido" DataMemberBinding="{Binding remetido}" DataFormatString="{}{0:dd/MM/yyyy}" Width="115"/>
+                <telerik:GridViewDataColumn Header="assinado" DataMemberBinding="{Binding assinado}" DataFormatString="{}{0:dd/MM/yyyy}" Width="115"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

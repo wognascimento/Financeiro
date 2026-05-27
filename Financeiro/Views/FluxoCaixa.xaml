@@ -23,6 +23,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -71,7 +72,7 @@
 
 
                     <TextBlock Text="Saldo Anterior:" Grid.Column="6" TextAlignment="Center"/>
-                    <TextBlock Text="R$ 0,00" Foreground="Blue" Grid.Column="7" TextAlignment="Center"/>
+                    <TextBlock Text="{Binding SaldoAnterior, StringFormat={}{0:C2}}" Foreground="Blue" Grid.Column="7" TextAlignment="Center"/>
 
                 </Grid>
 
@@ -101,7 +102,7 @@
                         Grid.Column="6"/>
 
                     <TextBlock Text="Saldo:" Grid.Column="7" TextAlignment="Center"/>
-                    <TextBlock Text="R$ 0,00" Grid.Column="8" TextAlignment="Center"/>
+                    <TextBlock Text="{Binding Saldo, StringFormat={}{0:C2}}" Grid.Column="8" TextAlignment="Center"/>
 
                 </Grid>
 
@@ -124,17 +125,31 @@
             </StackPanel>
         </Border>
 
+        <telerik:RadToolBar Grid.Row="1"
+                            Margin="0,10,0,0"
+                            GripVisibility="Collapsed"
+                            OverflowButtonVisibility="Collapsed">
+            <telerik:RadButton Content="Adicionar"
+                               Click="OnAdicionarFluxoClick"
+                               Padding="12,4"/>
+        </telerik:RadToolBar>
+
         <!-- ================= GRID ================= -->
         <telerik:RadGridView x:Name="GridFluxo"
                              ItemsSource="{Binding Fluxos}"
                              SelectedItem="{Binding SelectedMovimentoFuturo}"
-                             Grid.Row="1"
-                             Margin="0,10,0,0"
+                             Grid.Row="2"
+                             Margin="0,6,0,0"
                              AutoGenerateColumns="False"
                              ShowGroupPanel="False"
                              CanUserFreezeColumns="False"
+                             CanUserInsertRows="True"
+                             NewRowPosition="Top"
                              IsReadOnly="False"
                              IsFilteringAllowed="True"
+                             AddingNewDataItem="GridFluxo_AddingNewDataItem"
+                             CellValidating="GridFluxo_CellValidating"
+                             RowValidating="GridFluxo_RowValidating"
                              RowIndicatorVisibility="Collapsed"
                              SelectionMode="Single"
                              SelectionUnit="FullRow">
@@ -142,12 +157,30 @@
             <telerik:RadGridView.Columns>
 
                 <telerik:GridViewDataColumn Header="Conta"
-                                    DataMemberBinding="{Binding conta}"
-                                    Width="120"/>
+                                            DataMemberBinding="{Binding conta}"
+                                            Width="120">
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadComboBox
+                                ItemsSource="{Binding DataContext.ContasGrid, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                SelectedItem="{Binding conta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsEditable="True"/>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
 
                 <telerik:GridViewDataColumn Header="Depto"
-                                    DataMemberBinding="{Binding depto}"
-                                    Width="100"/>
+                                            DataMemberBinding="{Binding depto}"
+                                            Width="100">
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadComboBox
+                                ItemsSource="{Binding DataContext.DepartamentosGrid, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                SelectedItem="{Binding depto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsEditable="True"/>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
 
                 <telerik:GridViewDataColumn Header="Classif"
                                     DataMemberBinding="{Binding classif}"
@@ -158,8 +191,17 @@
                                     Width="90"/>
 
                 <telerik:GridViewDataColumn Header="F/V"
-                                    DataMemberBinding="{Binding tipo}"
-                                    Width="60"/>
+                                            DataMemberBinding="{Binding tipo}"
+                                            Width="60">
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadComboBox
+                                ItemsSource="{Binding DataContext.TiposGrid, RelativeSource={RelativeSource AncestorType=telerik:RadGridView}}"
+                                SelectedItem="{Binding tipo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsEditable="True"/>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
 
                 <telerik:GridViewDataColumn Header="Ok"
                                     DataMemberBinding="{Binding ok}"

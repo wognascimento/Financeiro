@@ -1,0 +1,61 @@
+namespace Financeiro.DataBase.Models;
+
+public sealed class FluxoModel
+{
+    public int? linha_fluxo { get; set; }
+    public string? depto { get; set; }
+    public string? classif { get; set; }
+    public string? tipo { get; set; }
+    public string? descricao { get; set; }
+    public string? mes { get; set; }
+    public string? forma_pagto { get; set; }
+    public string? numero_documento { get; set; }
+    public DateOnly? data_vencimento { get; set; }
+    public DateOnly? data_pagamento { get; set; }
+    public decimal? debito { get; set; }
+    public decimal? credito { get; set; }
+    public double? valor_previsto { get; set; }
+    public string? conta { get; set; }
+    public double? saldo_acumulado { get; set; }
+    public int? id_rh { get; set; }
+    public int? id_compras { get; set; }
+    public int? id_contrato { get; set; }
+    public int? id_previsao { get; set; }
+    public string? sub_classif { get; set; }
+    public string? obs { get; set; }
+    public string? ok { get; set; }
+    public string? tipo_fluxo { get; set; }
+    public double? saldo_aplicacao { get; set; }
+    public string? cadastradopor { get; set; }
+    public DateTimeOffset? cadastradoem { get; set; }
+    public string? alteradopor { get; set; }
+    public DateTimeOffset? alteradoem { get; set; }
+    public bool remover { get; set; }
+    public string? previsao { get; set; }
+    public string? parcela { get; set; }
+    public double? base_calculo { get; set; }
+    public double? indice { get; set; }
+    public double? n_pessoas { get; set; }
+    public string? id_zf1 { get; set; }
+    public string? id_zf2 { get; set; }
+    public string? id_logico_zf { get; set; }
+    public DateOnly? data_emissao { get; set; }
+    public string? class3 { get; set; }
+    public string? razao_social { get; set; }
+    public string? nf_obs { get; set; }
+    public double? nf_percent { get; set; }
+    public string? nf_tipo { get; set; }
+    public int? nf_cod { get; set; }
+    public string? mes_emissao { get; set; }
+    public int? id_adiantamento { get; set; }
+    public string? detalhe_cartao { get; set; }
+    public string? cnpj { get; set; }
+    public string? conta_credito_folhamatic { get; set; }
+    public string? tipo_pagto_matic { get; set; }
+    public string? descricao_fantasia { get; set; }
+    public string? auditoria { get; set; }
+    public bool aprovado { get; set; }
+    public string? aprovado_por { get; set; }
+    public DateTime? aprovado_em { get; set; }
+    public string? contabil { get; set; }
+}

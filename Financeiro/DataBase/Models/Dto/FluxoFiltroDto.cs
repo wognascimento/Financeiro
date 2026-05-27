@@ -2,7 +2,7 @@
 
 public sealed class FluxoFiltroDto
 {
-    public string ControleNome { get; set; }
+    public string? ControleNome { get; set; }
     public int? IdEmpresa { get; set; }
     public string? Conta { get; set; }
     public DateTime? DataInicio { get; set; }

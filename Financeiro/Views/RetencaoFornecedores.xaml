@@ -1,0 +1,98 @@
+<UserControl x:Class="Financeiro.Views.RetencaoFornecedores"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d"
+             Background="White"
+             d:DesignHeight="600"
+             d:DesignWidth="1400">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="360"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <telerik:RadGridView x:Name="GridFornecedores"
+                             Grid.Column="0"
+                             ItemsSource="{Binding Fornecedores}"
+                             SelectedItem="{Binding SelectedFornecedor, Mode=TwoWay}"
+                             AutoGenerateColumns="False"
+                             ShowGroupPanel="False"
+                             IsReadOnly="True"
+                             IsFilteringAllowed="True"
+                             SelectionMode="Single"
+                             SelectionUnit="FullRow"
+                             RowIndicatorVisibility="Collapsed"
+                             SelectionChanged="Fornecedores_SelectionChanged">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="CNPJ/CPF"
+                                            DataMemberBinding="{Binding cnpj_cpf}"
+                                            Width="130"/>
+                <telerik:GridViewDataColumn Header="Razao Social"
+                                            DataMemberBinding="{Binding razao_social}"
+                                            Width="210"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+        <GridSplitter Grid.Column="1"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"/>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <telerik:RadToolBar Grid.Row="0"
+                                GripVisibility="Collapsed"
+                                OverflowButtonVisibility="Collapsed">
+                <telerik:RadButton Content="Adicionar Pagamento"
+                                   Click="OnAdicionarPagamentoClick"
+                                   Padding="12,4"/>
+            </telerik:RadToolBar>
+
+            <telerik:RadGridView x:Name="GridPagamentos"
+                                 Grid.Row="1"
+                                 Margin="0,6,0,0"
+                                 ItemsSource="{Binding Pagamentos}"
+                                 AutoGenerateColumns="False"
+                                 ShowGroupPanel="False"
+                                 CanUserFreezeColumns="False"
+                                 CanUserInsertRows="True"
+                                 NewRowPosition="Top"
+                                 IsReadOnly="False"
+                                 IsFilteringAllowed="True"
+                                 AddingNewDataItem="GridPagamentos_AddingNewDataItem"
+                                 CellValidating="GridPagamentos_CellValidating"
+                                 RowValidating="GridPagamentos_RowValidating"
+                                 RowIndicatorVisibility="Collapsed"
+                                 SelectionMode="Single"
+                                 SelectionUnit="FullRow">
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn Header="id_retencao" DataMemberBinding="{Binding id_retencao}" IsReadOnly="True" Width="90"/>
+                    <telerik:GridViewDataColumn Header="empresa" DataMemberBinding="{Binding empresa}" Width="120"/>
+                    <telerik:GridViewDataColumn Header="id_fornecedor" DataMemberBinding="{Binding id_fornecedor}" IsReadOnly="True" Width="110"/>
+                    <telerik:GridViewDataColumn Header="nf" DataMemberBinding="{Binding nf}" Width="90"/>
+                    <telerik:GridViewDataColumn Header="data_emissao" DataMemberBinding="{Binding data_emissao}" DataFormatString="{}{0:dd/MM/yyyy}" Width="115"/>
+                    <telerik:GridViewDataColumn Header="valor" DataMemberBinding="{Binding valor}" DataFormatString="{}{0:N2}" TextAlignment="Right" Width="100"/>
+                    <telerik:GridViewDataColumn Header="inss" DataMemberBinding="{Binding inss}" DataFormatString="{}{0:N2}" TextAlignment="Right" Width="90"/>
+                    <telerik:GridViewDataColumn Header="iss" DataMemberBinding="{Binding iss}" DataFormatString="{}{0:N2}" TextAlignment="Right" Width="90"/>
+                    <telerik:GridViewDataColumn Header="irrf" DataMemberBinding="{Binding irrf}" DataFormatString="{}{0:N2}" TextAlignment="Right" Width="90"/>
+                    <telerik:GridViewDataColumn Header="csrf" DataMemberBinding="{Binding csrf}" DataFormatString="{}{0:N2}" TextAlignment="Right" Width="90"/>
+                    <telerik:GridViewDataColumn Header="id_pedido" DataMemberBinding="{Binding id_pedido}" Width="90"/>
+                    <telerik:GridViewDataColumn Header="ok_fiscal" DataMemberBinding="{Binding ok_fiscal}" Width="90"/>
+                    <telerik:GridViewDataColumn Header="sem_retencao" DataMemberBinding="{Binding sem_retencao}" Width="110"/>
+                    <telerik:GridViewDataColumn Header="cadastradopor" DataMemberBinding="{Binding cadastradopor}" IsReadOnly="True" Width="120"/>
+                    <telerik:GridViewDataColumn Header="cadastradoem" DataMemberBinding="{Binding cadastradoem}" DataFormatString="{}{0:dd/MM/yyyy HH:mm}" IsReadOnly="True" Width="140"/>
+                    <telerik:GridViewDataColumn Header="alteradopor" DataMemberBinding="{Binding alteradopor}" IsReadOnly="True" Width="120"/>
+                    <telerik:GridViewDataColumn Header="alteradoem" DataMemberBinding="{Binding alteradoem}" DataFormatString="{}{0:dd/MM/yyyy HH:mm}" IsReadOnly="True" Width="140"/>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+        </Grid>
+    </Grid>
+</UserControl>

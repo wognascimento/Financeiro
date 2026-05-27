@@ -1,8 +1,6 @@
 ﻿using BibliotecasSIG;
 using Financeiro.DataBase;
 using Financeiro.Views;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
@@ -19,8 +17,7 @@ namespace Financeiro
     public partial class MainWindow : Window
     {
         private DataBaseSettings BaseSettings = DataBaseSettings.Instance;
-        private const string UPDATE_URL = "http://192.168.0.49/downloads/financeiro/version.json";
-        private readonly string CURRENT_VERSION = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private readonly string CURRENT_VERSION = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
 
         public MainWindow()
         {
@@ -54,10 +51,11 @@ namespace Financeiro
         {
             try
             {
-                var updateChecker = new UpdateChecker(UPDATE_URL, CURRENT_VERSION);
-                var updateInfo = await updateChecker.CheckForUpdatesAsync();
+                if (string.IsNullOrWhiteSpace(BaseSettings.UpdateInfoUrl))
+                    return;
 
-                var updateInfoJson = JsonSerializer.Serialize<UpdateInfo>(updateInfo);
+                var updateChecker = new UpdateChecker(BaseSettings.UpdateInfoUrl, CURRENT_VERSION);
+                var updateInfo = await updateChecker.CheckForUpdatesAsync();
 
                 if (updateInfo != null)
                 {
@@ -75,13 +73,14 @@ namespace Financeiro
 
                     if (result == MessageBoxResult.Yes)
                     {
-                        var options = new JsonSerializerOptions { WriteIndented = true };
-                        string jsonString = JsonSerializer.Serialize(updateInfo, options);
                         string jsonData = JsonSerializer.Serialize(updateInfo);
                         string appName = "Financeiro.exe";
-                        string arguments = $"\"{jsonData.Replace("\"", "\\\"")}\" \"{appName}\"";
+                        string updateExecutable = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Update.exe");
+                        var startInfo = new ProcessStartInfo(updateExecutable);
+                        startInfo.ArgumentList.Add(jsonData);
+                        startInfo.ArgumentList.Add(appName);
 
-                        Process.Start("Update.exe", arguments);
+                        Process.Start(startInfo);
                         Application.Current.Shutdown();
                     }
                 }
@@ -112,7 +111,6 @@ namespace Financeiro
             window.ShowDialog();
             try
             {
-                var appSettings = ConfigurationManager.GetSection("appSettings") as NameValueCollection;
                 txtUsername.Text = BaseSettings.Username;
             }
             catch (Exception ex)
@@ -133,14 +131,14 @@ namespace Financeiro
                     {
                         BaseSettings.Database = e.PromptResult;
                         txtDataBase.Text = BaseSettings.Database;
-                        BaseSettings.ConnectionString = $"Host={BaseSettings.Host};Database={BaseSettings.Database};Username={BaseSettings.Username};Password={BaseSettings.Password}";
+                        BaseSettings.RefreshConnectionString();
                         radDocking.Items.Clear();
                     }
                 }
             });
         }
 
-        private void AbrirFormularioDinamico(Type tipoFormulario, string titulo, object parametro = null)
+        private void AbrirFormularioDinamico(Type tipoFormulario, string titulo, object? parametro = null)
         {
             var paneGroup = radDocking.FindChildByType<RadPaneGroup>();
 
@@ -187,6 +185,36 @@ namespace Financeiro
         private void OnEmpresaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             AbrirFormularioDinamico(typeof(FluxoCaixa), "FLUXO DE CAIXA");
+        }
+
+        private void OnTodosLancamentosClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirFormularioDinamico(typeof(TodosLancamentos), "TODOS LANCAMENTOS");
+        }
+
+        private void OnCobrancaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirFormularioDinamico(typeof(Cobranca), "COBRANÇA");
+        }
+
+        private void OnContratoClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirFormularioDinamico(typeof(Contrato), "CONTRATO");
+        }
+
+        private void OnRetencaoFornecedoresClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirFormularioDinamico(typeof(RetencaoFornecedores), "RETENÇÕES - FORNECEDORES");
+        }
+
+        private void OnRetencaoClientesClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirFormularioDinamico(typeof(RetencaoClientes), "RETENÇÕES - CLIENTES");
+        }
+
+        private void OnCadastroFornecedorClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirFormularioDinamico(typeof(CadastroFornecedor), "CADASTRO DE FORNECEDOR");
         }
     }
 }
