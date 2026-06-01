@@ -6,7 +6,7 @@
 #define MyAppPublisher "Cipolatti, Inc."
 #define MyAppURL "https://www.cipolatti.com.br"
 #define MyAppExeName "Financeiro.exe"
-#define DotNetRuntimeInstaller "redist\windowsdesktop-runtime-9.0-win-x64.exe"
+#define DotNetRuntimeInstaller "redist\windowsdesktop-runtime-10.0-win-x64.exe"
 
 [Setup]
 AppId={{E98B0312-7708-49A4-9FCF-7E1A9E79E9C7}
@@ -25,6 +25,7 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 CloseApplications=yes
 RestartApplications=no
+PrivilegesRequired=lowest
 OutputDir=artifacts\installer
 OutputBaseFilename=FinanceiroSetup-{#MyAppVersion}
 SetupIconFile=Financeiro\icones\logo-cinza.ico
@@ -49,20 +50,12 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 #ifexist DotNetRuntimeInstaller
-Filename: "{tmp}\windowsdesktop-runtime-9.0-win-x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Instalando .NET Desktop Runtime 9..."; Check: not IsDotNetDesktopRuntime9Installed
+Filename: "{tmp}\windowsdesktop-runtime-10.0-win-x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Instalando .NET Desktop Runtime 10..."; Check: not IsDotNetDesktopRuntime10Installed
 #endif
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
-function IsDotNetDesktopRuntime9Installed: Boolean;
-var
-  InstallLocation: String;
+function IsDotNetDesktopRuntime10Installed: Boolean;
 begin
-  Result :=
-    RegQueryStringValue(HKLM64, 'SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedhost', 'InstallLocation', InstallLocation) and
-    DirExists(ExpandConstant(InstallLocation + '\shared\Microsoft.WindowsDesktop.App\9.0.0'));
-
-  if not Result then
-    Result :=
-      RegKeyExists(HKLM64, 'SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.WindowsDesktop.App\9.0');
+  Result := RegKeyExists(HKLM64, 'SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.WindowsDesktop.App\10.0');
 end;

@@ -21,7 +21,8 @@ $artifactsPath = Join-Path $projectPath "artifacts"
 $installerPath = Join-Path $artifactsPath "installer"
 $versionJsonPath = Join-Path $artifactsPath "version.json"
 $redistPath = Join-Path $projectPath "redist"
-$runtimeInstallerName = "windowsdesktop-runtime-9.0-win-x64.exe"
+$runtimeInstallerName = "windowsdesktop-runtime-10.0-win-x64.exe"
+$runtimeInstallerSearchPattern = "windowsdesktop-runtime-10.*-win-x64.exe"
 $runtimeInstallerTargetPath = Join-Path $redistPath $runtimeInstallerName
 
 function Get-ApplicationVersion {
@@ -72,11 +73,22 @@ function Resolve-DotNetRuntimeInstaller {
     }
 
     $candidates += Join-Path $workspaceRoot "tools\dotnet\$runtimeInstallerName"
-    $candidates += Join-Path $projectPath "redist\$runtimeInstallerName"
 
     foreach ($candidate in $candidates) {
         if (Test-Path $candidate) {
             return (Resolve-Path $candidate).Path
+        }
+    }
+
+    $runtimeDirectory = Join-Path $workspaceRoot "tools\dotnet"
+
+    if (Test-Path $runtimeDirectory) {
+        $installer = Get-ChildItem -Path $runtimeDirectory -Filter $runtimeInstallerSearchPattern -File |
+            Sort-Object LastWriteTime -Descending |
+            Select-Object -First 1
+
+        if ($installer) {
+            return $installer.FullName
         }
     }
 
@@ -166,6 +178,24 @@ function Convert-ToVersion {
     }
 }
 
+function Convert-BytesToText {
+    param([byte[]]$Bytes)
+
+    if ($Bytes.Length -ge 2 -and $Bytes[0] -eq 0xFF -and $Bytes[1] -eq 0xFE) {
+        return [System.Text.Encoding]::Unicode.GetString($Bytes, 2, $Bytes.Length - 2)
+    }
+
+    if ($Bytes.Length -ge 2 -and $Bytes[0] -eq 0xFE -and $Bytes[1] -eq 0xFF) {
+        return [System.Text.Encoding]::BigEndianUnicode.GetString($Bytes, 2, $Bytes.Length - 2)
+    }
+
+    if ($Bytes.Length -ge 3 -and $Bytes[0] -eq 0xEF -and $Bytes[1] -eq 0xBB -and $Bytes[2] -eq 0xBF) {
+        return [System.Text.Encoding]::UTF8.GetString($Bytes, 3, $Bytes.Length - 3)
+    }
+
+    return [System.Text.Encoding]::UTF8.GetString($Bytes)
+}
+
 function Test-ServerVersion {
     param(
         [string]$LocalVersion,
@@ -182,16 +212,23 @@ function Test-ServerVersion {
     Write-Host "Verificando versão publicada: $versionUrl"
 
     try {
-        $response = Invoke-WebRequest -Uri $versionUrl -UseBasicParsing -TimeoutSec 20
+        $webClient = [System.Net.WebClient]::new()
+        $versionBytes = $webClient.DownloadData($versionUrl)
     }
     catch {
         $statusCode = $null
+        $exception = $_.Exception
 
-        if ($_.Exception.Response -and $_.Exception.Response.StatusCode) {
-            $statusCode = [int]$_.Exception.Response.StatusCode
+        while ($exception) {
+            if ($exception.Response -and $exception.Response.StatusCode) {
+                $statusCode = [int]$exception.Response.StatusCode
+                break
+            }
+
+            $exception = $exception.InnerException
         }
 
-        if ($statusCode -eq 404) {
+        if ($statusCode -eq 404 -or $_.Exception.Message -match "\(404\)|404|Nao Localizado|Não Localizado|Not Found") {
             Write-Host "Nenhum version.json encontrado no servidor. Deploy inicial permitido."
             return
         }
@@ -199,7 +236,19 @@ function Test-ServerVersion {
         throw "Não foi possível consultar a versão atual no servidor: $($_.Exception.Message)"
     }
 
-    $serverInfo = $response.Content | ConvertFrom-Json
+    finally {
+        if ($webClient) {
+            $webClient.Dispose()
+        }
+    }
+
+    try {
+        $serverJson = Convert-BytesToText -Bytes $versionBytes
+        $serverInfo = $serverJson | ConvertFrom-Json
+    }
+    catch {
+        throw "O version.json do servidor nao esta em um formato JSON valido. Arquivo consultado: $versionUrl. Detalhe: $($_.Exception.Message)"
+    }
     $serverVersionText = $serverInfo.updateVersion
 
     if ([string]::IsNullOrWhiteSpace($serverVersionText)) {
@@ -232,10 +281,10 @@ Write-Host "Versão: $version"
 Write-Host "Inno Setup: $resolvedInnoCompiler"
 
 if ([string]::IsNullOrWhiteSpace($runtimeInstallerSourcePath)) {
-    Write-Host ".NET Desktop Runtime 9 não será embutido. Coloque '$runtimeInstallerName' em '$workspaceRoot\tools\dotnet' ou informe -DotNetDesktopRuntimeInstallerPath."
+    Write-Host ".NET Desktop Runtime 10 nao sera embutido. Coloque '$runtimeInstallerName' ou '$runtimeInstallerSearchPattern' em '$workspaceRoot\tools\dotnet' ou informe -DotNetDesktopRuntimeInstallerPath."
 }
 else {
-    Write-Host ".NET Desktop Runtime 9: $runtimeInstallerSourcePath"
+    Write-Host ".NET Desktop Runtime 10: $runtimeInstallerSourcePath"
 }
 
 if (Test-Path $publishPath) {

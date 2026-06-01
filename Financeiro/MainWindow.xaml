@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
 
-        <telerik:RadMenu Grid.Row="0" Background="AliceBlue" >
+        <telerik:RadMenu Grid.Row="0" >
 
             <telerik:RadMenuItem Header="Fluxo">
                 <telerik:RadMenuItem Header="Empresa" Click="OnEmpresaClick"  />
@@ -59,7 +59,7 @@
         <!-- Menu para criar novos documentos -->
 
         <telerik:RadToolBar Grid.Row="2" 
-                            Background="AliceBlue"
+                            
                             GripVisibility="Collapsed" 
                             OverflowButtonVisibility="Collapsed">
 
