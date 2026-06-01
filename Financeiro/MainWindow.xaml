@@ -37,10 +37,9 @@
                 </telerik:RadMenuItem>
             </telerik:RadMenuItem>
 
-
             <telerik:RadMenuItem Header="Outros" >
                 <telerik:RadMenuItem Header="Virada Fiscal Anual"  />
-                <telerik:RadMenuItem Header="Atualizar Sistema"  />
+                <telerik:RadMenuItem Header="Atualizar Sistema" Click="OnAtualizarSistemaClick"/>
             </telerik:RadMenuItem>
 
         </telerik:RadMenu>

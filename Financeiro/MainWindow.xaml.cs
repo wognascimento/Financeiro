@@ -216,5 +216,11 @@ namespace Financeiro
         {
             AbrirFormularioDinamico(typeof(CadastroFornecedor), "CADASTRO DE FORNECEDOR");
         }
+
+        private async void OnAtualizarSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            // Verificação de atualização em segundo plano
+            await CheckForUpdatesAsync();
+        }
     }
 }

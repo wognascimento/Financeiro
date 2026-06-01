@@ -29,14 +29,14 @@ function Get-ApplicationVersion {
     $projContent = [xml](Get-Content $projectFile)
     $propertyGroups = @($projContent.Project.PropertyGroup)
 
-    $version = ($propertyGroups | ForEach-Object { $_.Version } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -First 1)
+    $version = ($propertyGroups | ForEach-Object { $_.AssemblyVersion } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -First 1)
 
     if ([string]::IsNullOrWhiteSpace($version)) {
-        $version = ($propertyGroups | ForEach-Object { $_.AssemblyVersion } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -First 1)
+        $version = ($propertyGroups | ForEach-Object { $_.Version } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -First 1)
     }
 
     if ([string]::IsNullOrWhiteSpace($version)) {
-        throw "Versão não encontrada no .csproj. Informe <Version> ou <AssemblyVersion>."
+        throw "Versão não encontrada no .csproj. Informe <AssemblyVersion> ou <Version>."
     }
 
     return $version
