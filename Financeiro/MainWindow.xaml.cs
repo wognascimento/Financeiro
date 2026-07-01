@@ -189,6 +189,31 @@ namespace Financeiro
             }
         }
 
+        private void AbrirControleDinamico(UserControl formulario, string titulo)
+        {
+            var paneGroup = radDocking.FindChildByType<RadPaneGroup>();
+
+            var paneExistente = paneGroup?.Items.OfType<RadPane>()
+                .FirstOrDefault(p => p.Header.ToString() == titulo);
+
+            if (paneExistente != null)
+            {
+                paneExistente.IsActive = true;
+                return;
+            }
+
+            var novoPane = new RadPane
+            {
+                Header = titulo,
+                CanUserClose = true,
+                Content = formulario,
+                Tag = formulario.GetType().Name
+            };
+
+            paneGroup?.Items.Add(novoPane);
+            novoPane.IsActive = true;
+        }
+
         private void OnEmpresaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             AbrirFormularioDinamico(typeof(FluxoCaixa), "FLUXO DE CAIXA");
@@ -222,6 +247,26 @@ namespace Financeiro
         private void OnCadastroFornecedorClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             AbrirFormularioDinamico(typeof(CadastroFornecedor), "CADASTRO DE FORNECEDOR");
+        }
+
+        private void OnConsultaRetencaoCsrfClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirControleDinamico(new ConsultaRetencaoExcel(TipoRetencaoExcel.Csrf), "RETENÇÃO DA CSRF");
+        }
+
+        private void OnConsultaRetencaoInssClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirControleDinamico(new ConsultaRetencaoExcel(TipoRetencaoExcel.Inss), "RETENÇÃO DO INSS");
+        }
+
+        private void OnConsultaRetencaoIrrfClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirControleDinamico(new ConsultaRetencaoExcel(TipoRetencaoExcel.Irrf), "RETENÇÃO DO IRRF");
+        }
+
+        private void OnConsultaRetencaoIssClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            AbrirControleDinamico(new ConsultaRetencaoExcel(TipoRetencaoExcel.Iss), "RETENÇÃO DO ISS");
         }
 
         private async void OnAtualizarSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)

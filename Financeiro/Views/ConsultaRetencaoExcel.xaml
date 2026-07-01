@@ -1,0 +1,38 @@
+<UserControl x:Class="Financeiro.Views.ConsultaRetencaoExcel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             Loaded="OnLoaded">
+    <Grid Margin="0,0,2,2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <telerik:RadButton Grid.Row="0"
+                           Content="Exportar Excel"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,2,2"
+                           Click="OnExportarExcelClick"/>
+
+        <telerik:RadGridView Grid.Row="1"
+                             x:Name="RetencoesGrid"
+                             AutoGenerateColumns="False"
+                             CanUserDeleteRows="False"
+                             CanUserFreezeColumns="False"
+                             IsReadOnly="True"
+                             ItemsSource="{Binding Retencoes}"
+                             ShowGroupPanel="False">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="Empresa" DataMemberBinding="{Binding empresa}"/>
+                <telerik:GridViewDataColumn Header="CNPJ/CPF" DataMemberBinding="{Binding cnpj_cpf}"/>
+                <telerik:GridViewDataColumn Header="Razão Social" DataMemberBinding="{Binding razao_social}"/>
+                <telerik:GridViewDataColumn Header="NF" DataMemberBinding="{Binding nf}"/>
+                <telerik:GridViewDataColumn Header="Data Emissão" DataMemberBinding="{Binding data_emissao}" DataFormatString="{}{0:dd/MM/yyyy}"/>
+                <telerik:GridViewDataColumn Header="Valor" DataMemberBinding="{Binding valor}" DataFormatString="{}{0:N2}"/>
+                <telerik:GridViewDataColumn Header="Retenção" DataMemberBinding="{Binding retencao}" DataFormatString="{}{0:N2}"/>
+                <telerik:GridViewDataColumn Header="Cadastrado Em" DataMemberBinding="{Binding cadastradoem}" DataFormatString="{}{0:dd/MM/yyyy HH:mm:ss}"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

@@ -37,6 +37,13 @@
                 </telerik:RadMenuItem>
             </telerik:RadMenuItem>
 
+            <telerik:RadMenuItem Header="Consultas">
+                <telerik:RadMenuItem Header="Retenção da CSRF" Click="OnConsultaRetencaoCsrfClick"/>
+                <telerik:RadMenuItem Header="Retenção do INSS" Click="OnConsultaRetencaoInssClick"/>
+                <telerik:RadMenuItem Header="Retenção do IRRF" Click="OnConsultaRetencaoIrrfClick"/>
+                <telerik:RadMenuItem Header="Retenção do ISS" Click="OnConsultaRetencaoIssClick"/>
+            </telerik:RadMenuItem>
+
             <telerik:RadMenuItem Header="Outros" >
                 <telerik:RadMenuItem Header="Virada Fiscal Anual"  />
                 <telerik:RadMenuItem Header="Atualizar Sistema" Click="OnAtualizarSistemaClick"/>
