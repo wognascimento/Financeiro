@@ -15,7 +15,7 @@ public partial class App : Application
     public App()
     {
         DataBaseSettings.Instance.LoadFromConfiguration();
-        StyleManager.ApplicationTheme = new Windows11Theme();
+        StyleManager.ApplicationTheme = new FluentTheme();
         LocalizationManager.Manager = new LocalizationManager()
         {
             ResourceManager = GridViewResources.ResourceManager

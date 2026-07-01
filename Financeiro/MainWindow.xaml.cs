@@ -22,7 +22,7 @@ namespace Financeiro
         public MainWindow()
         {
             InitializeComponent();
-            StyleManager.ApplicationTheme = new Office2016Theme();
+            
 
             txtUsername.Text = BaseSettings.Username;
             txtDataBase.Text = BaseSettings.Database;
@@ -47,7 +47,7 @@ namespace Financeiro
             }
         }
 
-        private async Task CheckForUpdatesAsync()
+        private async Task CheckForUpdatesAsync(bool showUpToDate = false)
         {
             try
             {
@@ -56,6 +56,13 @@ namespace Financeiro
 
                 var updateChecker = new UpdateChecker(BaseSettings.UpdateInfoUrl, CURRENT_VERSION);
                 var updateInfo = await updateChecker.CheckForUpdatesAsync();
+
+                if (updateInfo == null)
+                {
+                    if (showUpToDate)
+                        MessageBox.Show($"O sistema já está atualizado.\n\nVersão atual: {CURRENT_VERSION}", "Atualização do sistema", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
 
                 if (updateInfo != null)
                 {
@@ -219,8 +226,12 @@ namespace Financeiro
 
         private async void OnAtualizarSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-            // Verificação de atualização em segundo plano
-            await CheckForUpdatesAsync();
+            await CheckForUpdatesAsync(true);
+        }
+
+        private void OnSobreSistemaClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            MessageBox.Show($"Sistema Integrado de Gerenciamento - Financeiro\n\nVersão atual: {CURRENT_VERSION}", "Sobre o sistema", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

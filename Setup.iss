@@ -2,7 +2,7 @@
   #define MyAppVersion "1.0.0.0"
 #endif
 
-#define MyAppName "S.I.G. Financeiro"
+#define MyAppName "Financeiro S.I.G."
 #define MyAppPublisher "Cipolatti, Inc."
 #define MyAppURL "https://www.cipolatti.com.br"
 #define MyAppExeName "Financeiro.exe"
@@ -17,7 +17,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName=C:\SIG\S.I.G. Financeiro
+DefaultDirName=C:\SIG\Financeiro S.I.G
 DisableDirPage=yes
 DisableProgramGroupPage=yes
 UninstallDisplayIcon={app}\{#MyAppExeName}

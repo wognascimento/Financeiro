@@ -35,13 +35,18 @@ namespace Financeiro
                     // ContextType.Domain já usa seu domínio padrão ou especifique "cipodominio.com.br"
                     using var ctx = new PrincipalContext(
                            ContextType.Domain,
+                           "192.168.0.254",
                            "cipodominio.com.br");
                     if (!ctx.ValidateCredentials(txtLogin.Text, txtSenha.Password))
                         throw new Exception("Credenciais inválidas.");
 
                     // Atualiza config e fecha
-                    var config = ConfigurationManager.OpenExeConfiguration(@$"{BaseSettings.CaminhoSistema}Financeiro.dll");
-                    config.AppSettings.Settings["Username"].Value = txtLogin.Text;
+                    var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    if (config.AppSettings.Settings["Username"] == null)
+                        config.AppSettings.Settings.Add("Username", txtLogin.Text);
+                    else
+                        config.AppSettings.Settings["Username"].Value = txtLogin.Text;
+
                     config.Save(ConfigurationSaveMode.Modified);
                     ConfigurationManager.RefreshSection("appSettings");
 
