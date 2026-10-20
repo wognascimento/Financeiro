@@ -30,7 +30,10 @@ public sealed class DataBaseSettings
         Username = ReadSetting("Username", EnvUsername, Environment.UserName);
         Password = ReadSetting("Password", EnvPassword, null);
         CaminhoSistema = ReadSetting("SystemPath", null, CaminhoSistema);
-        UpdateInfoUrl = ReadSetting("UpdateInfoUrl", null, null);
+        UpdateInfoUrl = ReadSetting("UpdateInfoUrl", null, "https://atualizasig.cipolatti.com.br/downloads/financeiro/version.json");
+        if (string.Equals(UpdateInfoUrl?.Trim(), "http://192.168.0.49/downloads/financeiro/version.json", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(UpdateInfoUrl?.Trim(), "https://192.168.0.49/downloads/financeiro/version.json", StringComparison.OrdinalIgnoreCase))
+            UpdateInfoUrl = "https://atualizasig.cipolatti.com.br/downloads/financeiro/version.json";
 
         RefreshConnectionString();
     }

@@ -15,7 +15,7 @@ public partial class App : Application
     public App()
     {
         DataBaseSettings.Instance.LoadFromConfiguration();
-        StyleManager.ApplicationTheme = new FluentTheme();
+        StyleManager.ApplicationTheme = new Office2016Theme();
         LocalizationManager.Manager = new LocalizationManager()
         {
             ResourceManager = GridViewResources.ResourceManager
